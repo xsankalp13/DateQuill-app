@@ -1,6 +1,14 @@
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+import { NextApiRequest, NextApiResponse } from 'next';
+import Stripe from 'stripe';
 
-export default async function handler(req:any, res:any) {
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
+  /* Add any additional configuration options if needed */
+});
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   if (req.method === 'POST') {
     try {
       // Create Checkout Sessions from body params.
@@ -16,9 +24,9 @@ export default async function handler(req:any, res:any) {
         success_url: `http://localhost:3000/`,
         cancel_url: `http://localhost:3000/login`,
       });
-      res.redirect(303, session.url);
+      res.redirect(303, session.url!);
     } catch (err: any) {
-      res.status(err.statusCode || 500).json(err.message);
+      res.status(err.statusCode || 500).json({ error: err.message });
     }
   } else {
     res.setHeader('Allow', 'POST');
