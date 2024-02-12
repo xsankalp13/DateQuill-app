@@ -14,7 +14,7 @@ const page = () => {
 
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-
+  const [type,setType] = useState<'login' | 'signup'>('login')
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -73,38 +73,11 @@ const page = () => {
   return (
 
     <main className='h-screen flex items-center justify-center p-6  flex-col'>
-      {/* <input
-        type='email'
-        name='email'
-        value={email}
-        onChange={e => setEmail(e.target.value)}
-        placeholder='email'
-        className='p-3 m-2 w-80 rounded-md bg-gray-200'
-      />
-      <input
-        type='password'
-        name='password'
-        value={password}
-        onChange={e => setPassword(e.target.value)}
-        placeholder='password'
-        className='p-3 m-2 w-80 rounded-md bg-gray-200'
-      />
+      
       {
-        situations === 'success' && <p className='text-green-500'>Check your email for confirmation</p>
+        type === 'signup' ? <SignUp setType={setType}/> : <Login setType={setType}/>
       }
-      {
-        situations === 'error' && <p className='text-red-500'>Error</p>
-      }
-      <div className='flex justify-between w-80 mt-2'>
-        <button onClick={handleSignUp} className='p-2  bg-blue-500 text-white w-36 rounded-md'>Sign Up</button>
-        <button onClick={handleSignIn} className='p-2  bg-blue-500 text-white w-36 rounded-md'>Sign In</button>
-      </div>
-      <button onClick={handleGoogleOauth} className='p-2 mt-2 bg-blue-500 text-white w-80 rounded-md'>Google</button> */}
-      <Suspense>
-        {
-          query === 'register' ? (<SignUp /> ) : (<Login />)
-        }
-      </Suspense>
+
     </main>
   )
 }

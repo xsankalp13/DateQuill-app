@@ -7,6 +7,8 @@ import { createBrowserClient } from '@supabase/ssr';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useRouter } from 'next/navigation';
 
+
+
 type FormDataProps = {
     email: string,
     password: string
@@ -20,12 +22,12 @@ type valueProp = {
 
 
 interface LoginProps {
-    setFormData: React.Dispatch<React.SetStateAction<FormDataProps | null>>;
-}
+    setType: React.Dispatch<React.SetStateAction<"login" | "signup">>;
+  }
 
 
 
-const Login = () => {
+const Login: React.FC<LoginProps> = ({setType}) => {
     
 
     const supabase = createClientComponentClient();
@@ -115,7 +117,7 @@ const Login = () => {
             Log in
           </Button>
         </Form.Item>
-        Or <Link href="/login?type=register">register now!</Link>
+        Or <Button type='text' htmlType='button' onClick={() => setType('signup')}>register now!</Button>
         <Button type='default' htmlType='button' onClick={handleGoogleOauth} >Sign In with Google</Button>
       </Form>
   )

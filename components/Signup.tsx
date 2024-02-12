@@ -1,14 +1,16 @@
 'use client'
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 
 type FormDataProps = {
     email: string,
     password: string
 }
 
+
+
 interface LoginProps {
-    setFormData: React.Dispatch<React.SetStateAction<FormDataProps | null>>;
-}
+    setType: React.Dispatch<React.SetStateAction<"login" | "signup">>;
+  }
 
 type valueProp = {
     email: string,
@@ -51,7 +53,7 @@ const tailFormItemLayout = {
   },
 };
 
-const SignUp= () => {
+const SignUp:FC<LoginProps> = ({setType}) => {
   const [form] = Form.useForm();
 
   const supabase = createClientComponentClient();
@@ -158,11 +160,12 @@ const SignUp= () => {
       </Form.Item>
 
       <Form.Item {...tailFormItemLayout}>
-        <Button type="primary" htmlType="submit">
+        <Button type='default' htmlType="submit">
           Register
         </Button>
       </Form.Item>
-      Or <Link href="/login?type=login">register now!</Link>
+    Or <Button type='text' htmlType='button' onClick={() => setType('login')}>Log In!</Button>
+
     </Form>
   );
 };
