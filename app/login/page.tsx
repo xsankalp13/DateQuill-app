@@ -17,8 +17,6 @@ const page = () => {
   const [type,setType] = useState<'login' | 'signup'>('login')
 
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const query = searchParams.get('type');
   const supabase = createClientComponentClient();
   
   supabase.auth.onAuthStateChange((event, session) => {
