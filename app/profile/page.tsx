@@ -1,8 +1,11 @@
 import React from 'react'
+import ProfileForm from './ProfileForm'
 
 const page = () => {
   return (
-    <div>Payment </div>
+    <div>
+        <ProfileForm/>
+    </div>
   )
 }
 

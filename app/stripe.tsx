@@ -12,6 +12,6 @@ export default function PreviewPage() {
           }
         )
       })}
-      >Buy This image</button>
+      >Buy This plan</button>
   );
 }

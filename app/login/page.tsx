@@ -1,11 +1,18 @@
 'use client'
+import Login from '@/components/Login';
+import SignUp from '@/components/Signup';
 import { User, createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { createBrowserClient } from '@supabase/ssr';
-import { useRouter } from 'next/navigation';
-import { NextResponse } from 'next/server';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 
+type FormDataProps = {
+  email: string,
+  password: string
+}
+
 const page = () => {
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [situations, setSituations] = useState('hold');
@@ -14,8 +21,10 @@ const page = () => {
 
 
   const router = useRouter();
-  
+  const searchParams = useSearchParams();
+  const query = searchParams.get('type');
   const supabase = createClientComponentClient();
+  
   supabase.auth.onAuthStateChange((event, session) => {
     if (session && session.provider_token) {
       window.localStorage.setItem('oauth_provider_token', session.provider_token)
@@ -41,32 +50,6 @@ const page = () => {
     getUser();
   },[])
 
-  
-  const handleSignUp = async () => {
-    const {data,error} =  await supabase.auth.signUp({
-      email,
-      password,
-      options:{
-        emailRedirectTo : `${location.origin}/auth/callback`
-      }
-    })
-    setEmail('');
-    setPassword('');
-    if(data) setSituations('success');
-    if(error) setSituations('error');
-    setUser(data?.user)
-    router.push('/');
-  }
-  const handleSignIn = async () => {
-    const res = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    })
-    setUser(res.data.user)
-    setEmail('');
-    setPassword('');
-    router.push('/');
-  }
   const handleLogout = async () => {
     await supabase.auth.signOut();
     router.refresh();
@@ -74,32 +57,8 @@ const page = () => {
   }
 
 
-  const handleGoogleOauth = async () => {
-    const supaUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-    const supaAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-    const supa = createBrowserClient(supaUrl, supaAnonKey)
-    try {
-      const { data, error } = await supa.auth.signInWithOAuth({
-        provider: "google",
-        options:{
-          redirectTo: `${location.origin}/auth/callback`
-        }
-      });
-      if (error) {
-        // Handle error gracefully, e.g., show an error message to the user
-        console.error('Error signing in with Google:', error.message || error);
-      } else {
-        console.log('Google OAuth successful:', data);
-      }
-    } catch (error) {
-      console.error('Unexpected error during Google OAuth:', error);
-    }
-  };
+  
 
-
-
-
-  console.log(loading,user);
   if(loading) return <p>Loading...</p>
 
   if(user) {
@@ -116,8 +75,8 @@ const page = () => {
     )
   }
   return (
-    <main className='h-screen flex items-center justify-center bg-gray-800 p-6  flex-col'>
-      <input
+    <main className='h-screen flex items-center justify-center p-6  flex-col'>
+      {/* <input
         type='email'
         name='email'
         value={email}
@@ -143,7 +102,10 @@ const page = () => {
         <button onClick={handleSignUp} className='p-2  bg-blue-500 text-white w-36 rounded-md'>Sign Up</button>
         <button onClick={handleSignIn} className='p-2  bg-blue-500 text-white w-36 rounded-md'>Sign In</button>
       </div>
-      <button onClick={handleGoogleOauth} className='p-2 mt-2 bg-blue-500 text-white w-80 rounded-md'>Google</button>
+      <button onClick={handleGoogleOauth} className='p-2 mt-2 bg-blue-500 text-white w-80 rounded-md'>Google</button> */}
+      {
+        query === 'register' ? (<SignUp /> ) : (<Login />)
+      }
     </main>
   )
 }

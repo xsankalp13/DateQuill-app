@@ -7,11 +7,8 @@ import { checkout } from './checkout';
 
 const page = async () => {
   const cookieStore = cookies();
-
   const supabase = createServerComponentClient({cookies: () => cookieStore});
-  
   const {data} = await supabase.auth.getUser();
-  const session = await supabase.auth.getSession();
   
   
   if(!data.user) return (

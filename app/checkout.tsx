@@ -17,7 +17,7 @@ export async function checkout({ lineItems }: { lineItems: any[] }) {
       const { error } = await stripe.redirectToCheckout({
         mode: 'subscription',
         lineItems,
-        successUrl: `${window.location.origin}/success?session_id={CHECKOUT_SESSION_ID}`,
+        successUrl: `${window.location.origin}/profile?session_id={CHECKOUT_SESSION_ID}`,
         cancelUrl: `${window.location.origin}/fail`,
       });
 
