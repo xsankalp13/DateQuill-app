@@ -53,9 +53,10 @@ const Login: React.FC<LoginProps> = ({setType}) => {
           } else {
             console.log('Google OAuth successful:', data);
           }
-          router.push('/payments');
         } catch (error) {
-          console.error('Unexpected error during Google OAuth:', error);
+            console.error('Unexpected error during Google OAuth:', error);
+        } finally{
+            router.push('/payment');
         }
       };
 
@@ -64,7 +65,7 @@ const Login: React.FC<LoginProps> = ({setType}) => {
           email: data?.email!,
           password: data?.password!,
         })
-        router.push('/payments');
+        router.push('/payment');
       }
     //   const handleLogout = async () => {
     //     await supabase.auth.signOut();
