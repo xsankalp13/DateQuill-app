@@ -53,6 +53,7 @@ const Login: React.FC<LoginProps> = ({setType}) => {
           } else {
             console.log('Google OAuth successful:', data);
           }
+          router.push('/payments');
         } catch (error) {
           console.error('Unexpected error during Google OAuth:', error);
         }
