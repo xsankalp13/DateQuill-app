@@ -2,9 +2,8 @@
 import Login from '@/components/Login';
 import SignUp from '@/components/Signup';
 import { User, createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { createBrowserClient } from '@supabase/ssr';
-import { useParams, useRouter, useSearchParams } from 'next/navigation';
-import React, { useEffect, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation';
+import React, { Suspense, useEffect, useState } from 'react'
 
 type FormDataProps = {
   email: string,
@@ -13,9 +12,6 @@ type FormDataProps = {
 
 const page = () => {
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [situations, setSituations] = useState('hold');
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -75,6 +71,7 @@ const page = () => {
     )
   }
   return (
+
     <main className='h-screen flex items-center justify-center p-6  flex-col'>
       {/* <input
         type='email'
@@ -103,9 +100,11 @@ const page = () => {
         <button onClick={handleSignIn} className='p-2  bg-blue-500 text-white w-36 rounded-md'>Sign In</button>
       </div>
       <button onClick={handleGoogleOauth} className='p-2 mt-2 bg-blue-500 text-white w-80 rounded-md'>Google</button> */}
-      {
-        query === 'register' ? (<SignUp /> ) : (<Login />)
-      }
+      <Suspense>
+        {
+          query === 'register' ? (<SignUp /> ) : (<Login />)
+        }
+      </Suspense>
     </main>
   )
 }
