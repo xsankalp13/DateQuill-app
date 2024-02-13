@@ -1,8 +1,10 @@
 'use client'
 import Login from '@/components/Login';
 import SignUp from '@/components/Signup';
+import { LoadingSpinner } from '@/hooks/useLoader';
 import { loginVector } from '@/public';
 import { User, createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { Spin } from 'antd';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import React, { Suspense, useEffect, useState } from 'react'
@@ -55,7 +57,7 @@ const page = () => {
 
   
 
-  if(loading) return <p>Loading...</p>
+  if(loading) return <Spin size="large" className="flex h-screen justify-center items-center" />;
 
   if(user) {
     return (
@@ -73,7 +75,6 @@ const page = () => {
   return (
 
     <main className='h-screen flex items-center w-11/12 mx-auto '>
-
       <Image src={loginVector} alt='loginvector' className='w-[50%] ' />
       
       {

@@ -3,10 +3,12 @@ import PreviewPage from '../stripe'
 import Bar from '@/components/Bar'
 import Image from 'next/image'
 import { PaymentVector } from '@/public'
+import { LoadingSpinner } from '@/hooks/useLoader'
 
 const page = () => {
   return (
     <div>
+        <LoadingSpinner/>
         <Bar status={["process","wait","wait"]} />
         
         <div className=' h-[cal(100vh - 5rem )]  flex  w-11/12 mx-auto '>
