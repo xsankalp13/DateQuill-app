@@ -4,7 +4,7 @@ import { checkout } from './checkout';
 
 export default function PreviewPage() {
   return (
-    <button className="p-4 rounded-md px-8 bg-blue-500 text-white"
+    <button className=" w-10/12 mx-auto py-4 rounded-md my-4 bg-[#ff4f67] text-white"
       onClick={(()=>{
         checkout(
           {

@@ -57,25 +57,28 @@ const ProfileForm: React.FC = () => {
             message: 'Please input your Full Name!',
           },
         ]}
+        className='w-[71%]'
       >
         <Input prefix={<UserOutlined className="site-form-item-icon p-3" />} placeholder="Full Name" type='text' />
       </Form.Item>
 
-      <Form.Item
-        name="phone"
-        rules={[{ required: true, message: 'Please input your phone number!' }]}
-      >
-      <Input prefix={<PhoneOutlined className="site-form-item-icon p-3" />} placeholder="Phone Number" type='number' />
-
-      </Form.Item>
       
-      <div className='flex justify-between'>
+      <div className='flex gap-4'>
+    
+        <Form.Item
+          name="age"
+          rules={[{ required: true, message: 'Please input your Age!' },{type:'number', max:100, min:18, message:'You should be 18 or above!'}]}
+        >
+        <Input prefix={<UserOutlined className="site-form-item-icon p-3" />} placeholder="Age" type='number' />
+
+        </Form.Item>
+        
         <Form.Item
           name="gender"
           rules={[{ required: true, message: 'Please select gender!' }]}
           className='w-[30%]'
           >
-          <Select placeholder="select your gender">
+          <Select placeholder="select your gender" className='h-[3.03rem]' >
             <Option value="male">Male</Option>
             <Option value="female">Female</Option>
             <Option value="other">Other</Option>
@@ -83,6 +86,7 @@ const ProfileForm: React.FC = () => {
         </Form.Item>
 
 
+      </div>
         <Form.Item
           name="agreement"
           valuePropName="checked"
@@ -97,7 +101,6 @@ const ProfileForm: React.FC = () => {
             I have read the <Link href="#" className=' text-blue-600'>terms & conditions</Link>
           </Checkbox>
         </Form.Item>
-      </div>
       <Form.Item>
         <Button type="text" htmlType='submit' className=' bg-[#ff4f67] px-5 border-none text-background hover:bg-[#ff4f67e4] mt-5'>
           Save
