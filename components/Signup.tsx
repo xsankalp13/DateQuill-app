@@ -1,5 +1,6 @@
 'use client'
 import React, { FC, useState } from 'react';
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
 
 type FormDataProps = {
     email: string,
@@ -28,6 +29,7 @@ import {
 import Link from 'next/link';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useRouter } from 'next/navigation';
+import { createBrowserClient } from '@supabase/ssr';
 
 const formItemLayout = {
   labelCol: {
@@ -40,18 +42,6 @@ const formItemLayout = {
   },
 };
 
-const tailFormItemLayout = {
-  wrapperCol: {
-    xs: {
-      span: 24,
-      offset: 0,
-    },
-    sm: {
-      span: 16,
-      offset: 8,
-    },
-  },
-};
 
 const SignUp:FC<LoginProps> = ({setType}) => {
   const [form] = Form.useForm();
@@ -60,6 +50,29 @@ const SignUp:FC<LoginProps> = ({setType}) => {
   const [formdata, setData] =  useState<FormDataProps | null>(null)
 
   const router = useRouter()
+
+  const handleGoogleOauth = async () => {
+    const supaUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+    const supaAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+    const supa = createBrowserClient(supaUrl, supaAnonKey)
+    try {
+      const { data, error } = await supa.auth.signInWithOAuth({
+        provider: "google",
+        options:{
+          redirectTo: `${location.origin}/auth/callback`
+        }
+      });
+      if (error) {
+        // Handle error gracefully, e.g., show an error message to the user
+        console.error('Error signing in with Google:', error.message || error);
+      } else {
+        console.log('Google OAuth successful:', data);
+      }
+    } catch (error) {
+        console.error('Unexpected error during Google OAuth:', error);
+    }
+  };
+
 
   const handleSignUp = async () => {
     const {data,error} =  await supabase.auth.signUp({
@@ -87,15 +100,13 @@ const SignUp:FC<LoginProps> = ({setType}) => {
       name="register"
       onFinish={onFinish}
       scrollToFirstError
-      className='w-fit'
+      className='w-[44%]'
     >
       <Form.Item
         name="email"
-        label="E-mail"
         rules={[
           {
             type: 'email',
-            message: 'The input is not valid E-mail!',
           },
           {
             required: true,
@@ -103,32 +114,33 @@ const SignUp:FC<LoginProps> = ({setType}) => {
           },
         ]}
       >
-        <Input />
+        <Input prefix={<UserOutlined className="site-form-item-icon p-3" />} placeholder="Username" type='email' />
+
       </Form.Item>
 
       <Form.Item
         name="password"
-        label="Password"
         rules={[
           {
             required: true,
-            message: 'Please input your password!',
           },
         ]}
         hasFeedback
       >
-        <Input.Password />
+        <Input
+            prefix={<LockOutlined className="site-form-item-icon p-3" />}
+            type="password"
+            placeholder="Password"
+        />
       </Form.Item>
 
       <Form.Item
         name="confirm"
-        label="Confirm Password"
         dependencies={['password']}
         hasFeedback
         rules={[
           {
             required: true,
-            message: 'Please confirm your password!',
           },
           ({ getFieldValue }) => ({
             validator(_, value) {
@@ -140,7 +152,11 @@ const SignUp:FC<LoginProps> = ({setType}) => {
           }),
         ]}
       >
-        <Input.Password />
+        <Input
+            prefix={<LockOutlined className="site-form-item-icon p-3" />}
+            type="password"
+            placeholder="Password"
+        />
       </Form.Item>
 
       <Form.Item
@@ -152,19 +168,21 @@ const SignUp:FC<LoginProps> = ({setType}) => {
               value ? Promise.resolve() : Promise.reject(new Error('Should accept agreement')),
           },
         ]}
-        {...tailFormItemLayout}
+        
       >
-        <Checkbox>
+        <Checkbox className=''>
           I have read the <a href="">agreement</a>
         </Checkbox>
       </Form.Item>
 
-      <Form.Item {...tailFormItemLayout}>
-        <Button type='default' htmlType="submit">
+      <Form.Item>
+        <Button type='default' htmlType="submit" className='w-full bg-[#ff4f67] border-none text-background hover:bg-[#ff4f67e4]'>
           Register
         </Button>
+        Or <Button type='link' htmlType='button' onClick={() => setType('login')}>Log In!</Button>
+        <Button type='text' htmlType='button' onClick={handleGoogleOauth} className='w-full bg-[#ff4f67] border-none text-background hover:bg-[#ff4f67e4] mt-5' >Sign In with Google</Button>
       </Form.Item>
-    Or <Button type='text' htmlType='button' onClick={() => setType('login')}>Log In!</Button>
+
 
     </Form>
   );

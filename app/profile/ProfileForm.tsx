@@ -1,5 +1,7 @@
 'use client'
 import React from 'react';
+import { PhoneOutlined, UserOutlined } from '@ant-design/icons';
+
 
 import {
   Button,
@@ -11,6 +13,7 @@ import {
 
 import { countryCodes } from '@/constants';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 const { Option } = Select;
 const formItemLayout = {
@@ -57,17 +60,16 @@ const ProfileForm: React.FC = () => {
   );
   return (
     <Form
-      {...formItemLayout}
+
       form={form}
       name="profile"
       onFinish={onFinish}
       initialValues={{ prefix: '+1' }}
-      style={{ maxWidth: 600 }}
+      className='w-[44%]'
       scrollToFirstError
     >
       <Form.Item
         name="name"
-        label="Full Name"
         rules={[
           {
             type: 'string',
@@ -79,64 +81,48 @@ const ProfileForm: React.FC = () => {
           },
         ]}
       >
-        <Input />
-      </Form.Item>
-
-      <Form.Item
-        name="nickname"
-        label="Nickname"
-        tooltip="What do you want others to call you?"
-        rules={[{ required: false, message: 'Please input your nickname!', whitespace: true }]}
-      >
-        <Input />
+        <Input prefix={<UserOutlined className="site-form-item-icon p-3" />} placeholder="Full Name" type='text' />
       </Form.Item>
 
       <Form.Item
         name="phone"
-        label="Phone Number"
         rules={[{ required: true, message: 'Please input your phone number!' }]}
       >
-        <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
+      <Input prefix={<PhoneOutlined className="site-form-item-icon p-3" />} placeholder="Phone Number" type='number' />
+
       </Form.Item>
-
-      <Form.Item
-        name="intro"
-        label="Intro"
-        rules={[{ required: true, message: 'Please input Intro' }]}
-      >
-        <Input.TextArea showCount maxLength={100} />
-      </Form.Item>
-
-      <Form.Item
-        name="gender"
-        label="Gender"
-        rules={[{ required: true, message: 'Please select gender!' }]}
-      >
-        <Select placeholder="select your gender">
-          <Option value="male">Male</Option>
-          <Option value="female">Female</Option>
-          <Option value="other">Other</Option>
-        </Select>
-      </Form.Item>
+      
+      <div className='flex justify-between'>
+        <Form.Item
+          name="gender"
+          rules={[{ required: true, message: 'Please select gender!' }]}
+          className='w-[30%]'
+          >
+          <Select placeholder="select your gender">
+            <Option value="male">Male</Option>
+            <Option value="female">Female</Option>
+            <Option value="other">Other</Option>
+          </Select>
+        </Form.Item>
 
 
-      <Form.Item
-        name="agreement"
-        valuePropName="checked"
-        rules={[
-          {
-            validator: (_, value) =>
+        <Form.Item
+          name="agreement"
+          valuePropName="checked"
+          rules={[
+            {
+              validator: (_, value) =>
               value ? Promise.resolve() : Promise.reject(new Error('Should accept agreement')),
-          },
-        ]}
-        {...tailFormItemLayout}
-      >
-        <Checkbox>
-          I have read the <a href="">agreement</a>
-        </Checkbox>
-      </Form.Item>
-      <Form.Item {...tailFormItemLayout}>
-        <Button type="default" htmlType='submit'>
+            },
+          ]}
+          >
+          <Checkbox>
+            I have read the <Link href="#" className=' text-blue-600'>terms & conditions</Link>
+          </Checkbox>
+        </Form.Item>
+      </div>
+      <Form.Item>
+        <Button type="text" htmlType='submit' className=' bg-[#ff4f67] px-5 border-none text-background hover:bg-[#ff4f67e4] mt-5'>
           Save
         </Button>
       </Form.Item>

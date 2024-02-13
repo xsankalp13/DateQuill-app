@@ -4,6 +4,7 @@ import Link from 'next/link'
 import React from 'react'
 import PreviewPage from './stripe';
 import { checkout } from './checkout';
+import Bar from '@/components/Bar';
 
 const page = async () => {
   const cookieStore = cookies();
@@ -12,9 +13,11 @@ const page = async () => {
   
   
   if(!data.user) return (
+    <>
     <Link className=' p-2 px-4 rounded-md text-white bg-blue-500 ' href={`/login`}>
         Click to login
     </Link>
+    </>
   )
   return (
     <>

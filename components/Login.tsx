@@ -26,6 +26,16 @@ interface LoginProps {
   }
 
 
+const formItemLayout = {
+    labelCol: {
+        xs: { span: 24 },
+        sm: { span: 8 },
+    },
+    wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 16 },
+    },
+};
 
 const Login: React.FC<LoginProps> = ({setType}) => {
     
@@ -80,46 +90,52 @@ const Login: React.FC<LoginProps> = ({setType}) => {
     handleSignIn();
   };
   return (
-      <Form
-        name="normal_login"
-        className="login-form"
-        initialValues={{ remember: true }}
-        onFinish={onFinish}
-      >
-        <Form.Item
-          name="email"
-          rules={[{ required: true, message: 'Please input your email!' }]}
-        >
-          <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" type='email' />
-        </Form.Item>
-        <Form.Item
-          name="password"
-          rules={[{ required: true, message: 'Please input your Password!' }]}
-        >
-          <Input
-            prefix={<LockOutlined className="site-form-item-icon" />}
-            type="password"
-            placeholder="Password"
-          />
-        </Form.Item>
-        <Form.Item>
-          <Form.Item name="remember" valuePropName="checked" noStyle>
-            <Checkbox>Remember me</Checkbox>
-          </Form.Item>
+    
+        
 
-          <Link className="login-form-forgot" href="">
-            Forgot password
-          </Link>
-        </Form.Item>
+        <Form
+            name="normal_login"
+            className="login-form  w-[44%]"
+            initialValues={{ remember: true }}
+            onFinish={onFinish}
+            {...formItemLayout}
 
-        <Form.Item>
-          <Button type='default' htmlType="submit" className="w-full">
-            Log in
-          </Button>
-        </Form.Item>
-        Or <Button type='text' htmlType='button' onClick={() => setType('signup')}>register now!</Button>
-        <Button type='default' htmlType='button' onClick={handleGoogleOauth} >Sign In with Google</Button>
-      </Form>
+        >
+            <Form.Item
+            name="email"
+            rules={[{ required: true, message: 'Please input your email!' }]}
+            >
+            <Input prefix={<UserOutlined className="site-form-item-icon p-3" />} placeholder="Username" type='email' />
+            </Form.Item>
+            <Form.Item
+            name="password"
+            rules={[{ required: true, message: 'Please input your Password!' }]}
+            >
+            <Input
+                prefix={<LockOutlined className="site-form-item-icon p-3" />}
+                type="password"
+                placeholder="Password"
+            />
+            </Form.Item>
+            <Form.Item>
+            <Form.Item name="remember" valuePropName="checked" noStyle>
+                <Checkbox>Remember me</Checkbox>
+            </Form.Item>
+
+            <Link className="login-form-forgot" href="">
+                Forgot password
+            </Link>
+            </Form.Item>
+
+            <Form.Item>
+            <Button type='text' htmlType="submit" className="w-full bg-[#ff4f67] border-none text-background hover:bg-[#ff4f67e4]">
+                Log in
+            </Button>
+            Or <Button type='link' htmlType='button' onClick={() => setType('signup')} className=''>register now!</Button>
+            <Button type='text' htmlType='button' onClick={handleGoogleOauth} className='w-full bg-[#ff4f67] border-none text-background hover:bg-[#ff4f67e4] mt-5' >Sign In with Google</Button>
+            </Form.Item>
+        </Form>
+      
   )
 }
 

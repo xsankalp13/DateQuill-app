@@ -1,7 +1,9 @@
 'use client'
 import Login from '@/components/Login';
 import SignUp from '@/components/Signup';
+import { loginVector } from '@/public';
 import { User, createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import React, { Suspense, useEffect, useState } from 'react'
 
@@ -70,7 +72,9 @@ const page = () => {
   }
   return (
 
-    <main className='h-screen flex items-center justify-center p-6  flex-col'>
+    <main className='h-screen flex items-center w-11/12 mx-auto '>
+
+      <Image src={loginVector} alt='loginvector' className='w-[50%] ' />
       
       {
         type === 'signup' ? <SignUp setType={setType}/> : <Login setType={setType}/>
